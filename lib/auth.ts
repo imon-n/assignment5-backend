@@ -13,9 +13,9 @@
 //   },
 // });
 
-import { betterAuth } from "better-auth";
-import { prismaAdapter } from "better-auth/adapters/prisma";
-import { prisma } from "./prisma";
+import {betterAuth} from "better-auth";
+import {prismaAdapter} from "better-auth/adapters/prisma";
+import {prisma} from "./prisma";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
@@ -30,7 +30,7 @@ const transporter = nodemailer.createTransport({
 
 export const auth = betterAuth({
   // 🔥 MUST ADD (MAIN FIX)
-  baseURL: "https://skillbridge-backend-6mpi.onrender.com",
+  baseURL: "https://assignment5-backend-f7q4.onrender.com",
 
   database: prismaAdapter(prisma, {
     provider: "postgresql",
@@ -38,21 +38,16 @@ export const auth = betterAuth({
 
   // trustedOrigins: [
   //   process.env.APP_URL!,
-  //   // "https://skillbridge-backend-6mpi.onrender.com",
-  //   "https://skillbridge-frontend-ten-nu.vercel.app",
+  //   // "https://assignment5-backend-f7q4.onrender.com",
+  //   "https://assignment5-frontend-seven.vercel.app",
   // ],
 
-
-  trustedOrigins: [
-    "http://localhost:3000",
-  ],
-
+  trustedOrigins: ["http://localhost:3000"],
 
   // 🔥 FIXED REDIRECT
   redirects: {
-    signIn: "https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
-    afterSignIn:
-      "https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
+    signIn: "https://assignment5-frontend-seven.vercel.app/dashboard",
+    afterSignIn: "https://assignment5-frontend-seven.vercel.app/dashboard",
   },
 
   user: {
@@ -83,7 +78,7 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    sendVerificationEmail: async ({ user, url, token }) => {
+    sendVerificationEmail: async ({user, url, token}) => {
       try {
         const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`;
 
@@ -129,21 +124,19 @@ export const auth = betterAuth({
 
 // //   trustedOrigins: [
 // //   process.env.APP_URL!,
-// //   "https://skillbridge-backend-6mpi.onrender.com", // 👈 এটা add করো
+// //   "https://assignment5-backend-f7q4.onrender.com", // 👈 এটা add করো
 // // ],
 
 //   trustedOrigins: [
 //     process.env.APP_URL!,
-//     "https://skillbridge-backend-6mpi.onrender.com",
-//     "https://skillbridge-frontend-ten-nu.vercel.app", // ✅ ADD THIS
+//     "https://assignment5-backend-f7q4.onrender.com",
+//     "https://assignment5-frontend-seven.vercel.app", // ✅ ADD THIS
 //   ],
 
 //   // 🔥 ADD THIS BLOCK
 //   redirects: {
-//     signIn: "https://skillbridge-frontend-ten-nu.vercel.app/dashboard",
+//     signIn: "https://assignment5-frontend-seven.vercel.app/dashboard",
 //   },
-
-
 
 //   user: {
 //     additionalFields: {
@@ -327,7 +320,6 @@ export const auth = betterAuth({
 //     },
 //   },
 // });
-
 
 //
 // GOOGLE_CLIENT_ID

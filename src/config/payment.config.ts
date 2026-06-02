@@ -8,10 +8,10 @@ export const PAYMENT_CONFIG = {
   STRIPE: {
     // Enabled/Disabled
     enabled: process.env.STRIPE_SECRET_KEY ? true : false,
-    
+
     // Stripe-specific settings
     apiVersion: "2024-04-10" as const,
-    
+
     // Payment intent settings
     paymentIntentDefaults: {
       currency: "usd",
@@ -46,10 +46,12 @@ export const PAYMENT_CONFIG = {
     enabled: process.env.SSLCOMMERZ_STORE_ID ? true : false,
 
     // API settings
-    apiUrl: process.env.SSLCOMMERZ_API_URL || 
+    apiUrl:
+      process.env.SSLCOMMERZ_API_URL ||
       "https://testbox.sslcommerz.com/gwprocess/v4/api.php",
-    
-    validationUrl: process.env.SSLCOMMERZ_VALIDATION_URL ||
+
+    validationUrl:
+      process.env.SSLCOMMERZ_VALIDATION_URL ||
       "https://testbox.sslcommerz.com/validator/api/validationserverAPI.php",
 
     // Payment settings
@@ -148,7 +150,7 @@ export const PAYMENT_CONFIG = {
     // Stripe fees
     STRIPE: {
       percentage: 2.9, // 2.9%
-      flatFee: 0.30, // $0.30 or currency equivalent
+      flatFee: 0.3, // $0.30 or currency equivalent
       internationalPercentage: 3.9, // 3.9% for international cards
     },
 
@@ -209,7 +211,7 @@ export const PAYMENT_CONFIG = {
     cors: {
       allowedOrigins: [
         "http://localhost:3000",
-        "https://skillbridge-frontend-ten-nu.vercel.app",
+        "https://assignment5-frontend-seven.vercel.app",
       ],
       credentials: true,
     },
@@ -293,23 +295,23 @@ export const getPaymentConfig = (gateway: "STRIPE" | "SSLCOMMERZ") => {
 };
 
 export const isPaymentMethodEnabled = (
-  method: "STRIPE" | "SSLCOMMERZ"
+  method: "STRIPE" | "SSLCOMMERZ",
 ): boolean => {
   return PAYMENT_CONFIG[method].enabled;
 };
 
 export const getEnabledPaymentMethods = (): ("STRIPE" | "SSLCOMMERZ")[] => {
   const methods: ("STRIPE" | "SSLCOMMERZ")[] = [];
-  
+
   if (PAYMENT_CONFIG.STRIPE.enabled) methods.push("STRIPE");
   if (PAYMENT_CONFIG.SSLCOMMERZ.enabled) methods.push("SSLCOMMERZ");
-  
+
   return methods;
 };
 
 export const calculateFee = (
   amount: number,
-  gateway: "STRIPE" | "SSLCOMMERZ"
+  gateway: "STRIPE" | "SSLCOMMERZ",
 ): number => {
   const fees = PAYMENT_CONFIG.FEES[gateway];
   return amount * (fees.percentage / 100) + fees.flatFee;
@@ -317,7 +319,7 @@ export const calculateFee = (
 
 export const calculateTotalAmount = (
   amount: number,
-  gateway: "STRIPE" | "SSLCOMMERZ"
+  gateway: "STRIPE" | "SSLCOMMERZ",
 ): number => {
   if (PAYMENT_CONFIG.FEES.passToCustomer) {
     return amount + calculateFee(amount, gateway);

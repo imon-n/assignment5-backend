@@ -1,7 +1,7 @@
-import express, { type Application } from "express";
-import { toNodeHandler } from "better-auth/node";
-import { auth } from "../lib/auth";
- import  cors from "cors";
+import express, {type Application} from "express";
+import {toNodeHandler} from "better-auth/node";
+import {auth} from "../lib/auth";
+import cors from "cors";
 
 import tutorRoute from "./modules/tutor/tutor.route";
 import categoryRoute from "./modules/category/category.route";
@@ -17,14 +17,14 @@ const app: Application = express();
 // Stripe webhook - must be before json middleware
 app.post(
   "/api/v1/payments/stripe/webhook",
-  express.raw({ type: "application/json" }),
-  PaymentController.handleStripeWebhook
+  express.raw({type: "application/json"}),
+  PaymentController.handleStripeWebhook,
 );
 
 app.use(express.json());
 
 // app.use(cors({
-//   origin: process.env.APP_URL ||"https://skillbridge-frontend-ten-nu.vercel.app",
+//   origin: process.env.APP_URL ||"https://assignment5-frontend-seven.vercel.app",
 //   credentials: true
 // }));
 
@@ -32,22 +32,21 @@ app.use(
   cors({
     origin: [
       "http://localhost:3000",
-      "https://skillbridge-frontend-ten-nu.vercel.app",
+      "https://assignment5-frontend-seven.vercel.app",
     ],
     credentials: true,
-  })
+  }),
 );
 
-
-app.use("/api/auth", toNodeHandler(auth)); 
-app.use("/api", authRoute);                 
+app.use("/api/auth", toNodeHandler(auth));
+app.use("/api", authRoute);
 
 // other routes
 app.use("/api", tutorRoute);
 app.use("/api", categoryRoute);
 app.use("/api", bookingRoute);
 app.use("/api", reviewRoute);
-app.use("/api",adminRoute );
+app.use("/api", adminRoute);
 app.use("/api/v1/payments", paymentRoute);
 
 app.get("/", (req, res) => {
