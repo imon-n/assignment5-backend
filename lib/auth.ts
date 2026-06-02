@@ -42,13 +42,9 @@ export const auth = betterAuth({
   //   "https://assignment5-frontend-seven.vercel.app",
   // ],
 
-  trustedOrigins: ["http://localhost:3000"],
+  trustedOrigins: ["https://assignment5-frontend-seven.vercel.app"],
 
-  // 🔥 FIXED REDIRECT
-  redirects: {
-    signIn: "https://assignment5-frontend-seven.vercel.app/dashboard",
-    afterSignIn: "https://assignment5-frontend-seven.vercel.app/dashboard",
-  },
+ 
 
   user: {
     additionalFields: {

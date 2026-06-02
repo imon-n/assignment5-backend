@@ -31,7 +31,7 @@ app.use(express.json());
 app.use(
   cors({
     origin: [
-      "http://localhost:3000",
+  
       "https://assignment5-frontend-seven.vercel.app",
     ],
     credentials: true,
