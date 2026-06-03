@@ -28,7 +28,7 @@ export const getMeController = async (req: Request, res: Response) => {
       }
     }
 
-    // 🔥 Log to confirm Bearer token is arriving
+    
     console.log("Authorization:", req.headers.authorization);
 
     const user = await getSessionUser(headers);
