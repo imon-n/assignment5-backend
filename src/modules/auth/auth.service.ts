@@ -37,16 +37,6 @@ export const loginUser = async (data: any) => {
 
 
 
-
-
-// export const getMe = async (headers: any) => {
-//   const session = await auth.api.getSession({ headers });
-
-//   return {
-//     success: true,
-//     data: session?.user,
-//   };
-// };
 export const updateMe = async (
   userId: string,
   data: { name?: string; image?: string }
@@ -65,19 +55,8 @@ export const updateMe = async (
 
 
 
-
-
-// auth.service.ts
-export const getSessionUser = async (rawHeaders: Record<string, string | string[] | undefined>) => {
+export const getSessionUser = async (headers: Headers) => {
   try {
-    // Convert Express headers to Web API Headers object
-    const headers = new Headers();
-    for (const [key, value] of Object.entries(rawHeaders)) {
-      if (value) {
-        headers.set(key, Array.isArray(value) ? value.join(", ") : value);
-      }
-    }
-
     const session = await auth.api.getSession({ headers });
 
     if (!session || !session.user) {

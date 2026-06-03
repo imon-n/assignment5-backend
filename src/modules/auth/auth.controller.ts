@@ -1,6 +1,6 @@
 // auth.controller.ts
 import { Request, Response } from "express";
-import {  getMeService, getSessionUser, loginUser, registerUser, updateMe } from "./auth.service";
+import {  getSessionUser, loginUser, registerUser, updateMe } from "./auth.service";
 
 
 
@@ -20,13 +20,16 @@ export const loginUserController = async (req: Request, res: Response) => {
 // auth.controller.ts
 export const getMeController = async (req: Request, res: Response) => {
   try {
-    // Convert Express headers to Web API Headers object
+    // 🔥 Convert once here, then pass to service
     const headers = new Headers();
     for (const [key, value] of Object.entries(req.headers)) {
       if (value) {
         headers.set(key, Array.isArray(value) ? value.join(", ") : value);
       }
     }
+
+    // 🔥 Log to confirm Bearer token is arriving
+    console.log("Authorization:", req.headers.authorization);
 
     const user = await getSessionUser(headers);
 

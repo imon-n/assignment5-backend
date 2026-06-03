@@ -14,7 +14,6 @@ import * as PaymentController from "./modules/payment/payment.controller";
 
 const app: Application = express();
 
-// Stripe webhook - must be before json middleware
 app.post(
   "/api/v1/payments/stripe/webhook",
   express.raw({type: "application/json"}),
@@ -22,12 +21,6 @@ app.post(
 );
 
 app.use(express.json());
-
-// app.use(cors({
-//   origin: process.env.APP_URL ||"https://assignment5-frontend-seven.vercel.app",
-//   credentials: true
-// }));
-
 app.set("trust proxy", 1);
 
 app.use(
@@ -36,10 +29,10 @@ app.use(
     credentials: true,
   })
 );
-app.all("/api/auth/*", toNodeHandler(auth));
-app.use("/api", authRoute);
 
-// other routes
+app.all("/api/auth/*", toNodeHandler(auth));
+
+app.use("/api", authRoute);
 app.use("/api", tutorRoute);
 app.use("/api", categoryRoute);
 app.use("/api", bookingRoute);
