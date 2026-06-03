@@ -1,4 +1,3 @@
-
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
@@ -15,7 +14,6 @@ const transporter = nodemailer.createTransport({
 });
 
 export const auth = betterAuth({
-  // 🔥 MUST ADD (MAIN FIX)
   baseURL: "https://assignment5-backend-f7q4.onrender.com",
 
   database: prismaAdapter(prisma, {
@@ -23,28 +21,33 @@ export const auth = betterAuth({
   }),
 
   trustedOrigins: [
-    process.env.APP_URL!,
-    "https://assignment5-backend-f7q4.onrender.com",
     "https://assignment5-frontend-seven.vercel.app",
+    "https://assignment5-backend-f7q4.onrender.com",
   ],
 
- 
+  // 🔥 MAIN FIX (cookie config)
+  cookies: {
+    sessionToken: {
+      options: {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none", // 🔥 REQUIRED
+      },
+    },
+  },
 
   user: {
     additionalFields: {
       role: {
         type: "string",
         defaultValue: "STUDENT",
-        required: false,
       },
       phone: {
         type: "string",
-        required: false,
       },
       status: {
         type: "string",
         defaultValue: "ACTIVE",
-        required: false,
       },
     },
   },
@@ -58,30 +61,15 @@ export const auth = betterAuth({
   emailVerification: {
     sendOnSignUp: true,
     autoSignInAfterVerification: true,
-    sendVerificationEmail: async ({ user, url, token }) => {
-      try {
-        const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`;
+    sendVerificationEmail: async ({ user, token }) => {
+      const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`;
 
-        const info = await transporter.sendMail({
-          from: '"Prisma Blog" <prismablog@ph.com>',
-          to: user.email,
-          subject: "Please verify your email!",
-          html: `<!DOCTYPE html>
-<html>
-<body>
-  <h2>Verify Email</h2>
-  <p>Hello ${user.name}</p>
-  <a href="${verificationUrl}">Verify Email</a>
-  <p>${url}</p>
-</body>
-</html>`,
-        });
-
-        console.log("Message sent:", info.messageId);
-      } catch (err) {
-        console.error(err);
-        throw err;
-      }
+      await transporter.sendMail({
+        from: '"SkillBridge" <no-reply@skillbridge.com>',
+        to: user.email,
+        subject: "Verify Email",
+        html: `<a href="${verificationUrl}">Verify Email</a>`,
+      });
     },
   },
 
@@ -89,8 +77,8 @@ export const auth = betterAuth({
     google: {
       prompt: "select_account consent",
       accessType: "offline",
-      clientId: process.env.GOOGLE_CLIENT_ID as string,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     },
   },
 });
