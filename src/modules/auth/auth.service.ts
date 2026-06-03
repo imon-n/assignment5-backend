@@ -68,6 +68,6 @@ export const getMe = async (headers: any) => {
 
   return {
     success: true,
-    data: session?.user,
+    data: session?.user ?? null, // 🔥 always return null or user
   };
 };

@@ -28,16 +28,14 @@ app.use(express.json());
 //   credentials: true
 // }));
 
+app.set("trust proxy", 1);
+
 app.use(
   cors({
-    origin: [
-  
-      "https://assignment5-frontend-seven.vercel.app",
-    ],
+    origin: "https://assignment5-frontend-seven.vercel.app",
     credentials: true,
-  }),
+  })
 );
-
 app.use("/api/auth", toNodeHandler(auth));
 app.use("/api", authRoute);
 

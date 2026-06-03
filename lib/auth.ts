@@ -26,16 +26,16 @@ export const auth = betterAuth({
   ],
 
   // 🔥🔥🔥 MAIN FIX (DO NOT MISS)
-  cookies: {
-    sessionToken: {
-      options: {
-        httpOnly: true,
-        secure: true,       // HTTPS required
-        sameSite: "none",   // 🔥 cross-domain fix
-        path: "/",
-      },
+ cookies: {
+  sessionToken: {
+    attributes: {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      path: "/",
     },
   },
+},
 
   // 🔥 extra safety (important in production)
   advanced: {
