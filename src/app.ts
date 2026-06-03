@@ -11,7 +11,7 @@ import authRoute from "./modules/auth/auth.route";
 import adminRoute from "./modules/admin/admin.route";
 import paymentRoute from "./modules/payment/payment.route";
 import * as PaymentController from "./modules/payment/payment.controller";
-
+import cookieParser from "cookie-parser";
 const app: Application = express();
 
 app.post(
@@ -21,15 +21,17 @@ app.post(
 );
 
 app.use(express.json());
-app.set("trust proxy", 1);
+app.use(cookieParser());
 
 app.use(
   cors({
     origin: "https://assignment5-frontend-seven.vercel.app",
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
+
+// 🔥 AFTER middleware
+app.all("/api/auth/*", authHandler);
 
 app.all("/api/auth/*", toNodeHandler(auth));
 
