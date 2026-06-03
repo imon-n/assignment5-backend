@@ -25,15 +25,21 @@ export const auth = betterAuth({
     "https://assignment5-backend-f7q4.onrender.com",
   ],
 
-  // 🔥 MAIN FIX (cookie config)
+  // 🔥🔥🔥 MAIN FIX (DO NOT MISS)
   cookies: {
     sessionToken: {
       options: {
         httpOnly: true,
-        secure: true,
-        sameSite: "none", // 🔥 REQUIRED
+        secure: true,       // HTTPS required
+        sameSite: "none",   // 🔥 cross-domain fix
+        path: "/",
       },
     },
+  },
+
+  // 🔥 extra safety (important in production)
+  advanced: {
+    useSecureCookies: true,
   },
 
   user: {
@@ -55,22 +61,7 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
-    requireEmailVerification: true,
-  },
-
-  emailVerification: {
-    sendOnSignUp: true,
-    autoSignInAfterVerification: true,
-    sendVerificationEmail: async ({ user, token }) => {
-      const verificationUrl = `${process.env.APP_URL}/verify-email?token=${token}`;
-
-      await transporter.sendMail({
-        from: '"SkillBridge" <no-reply@skillbridge.com>',
-        to: user.email,
-        subject: "Verify Email",
-        html: `<a href="${verificationUrl}">Verify Email</a>`,
-      });
-    },
+    requireEmailVerification: false, // 👉 testing time false রাখো
   },
 
   socialProviders: {
