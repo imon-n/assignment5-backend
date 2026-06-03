@@ -25,13 +25,12 @@ export const auth = betterAuth({
     "https://assignment5-backend-f7q4.onrender.com",
   ],
 
-  // 🔥🔥🔥 MAIN FIX (DO NOT MISS)
- cookies: {
+cookies: {
   sessionToken: {
-    attributes: {
+    options: {
       httpOnly: true,
       secure: true,
-      sameSite: "none",
+      sameSite: "none", // 🔥 MUST
       path: "/",
     },
   },
