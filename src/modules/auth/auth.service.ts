@@ -12,7 +12,7 @@ export const registerUser = async (data: any) => {
       image: data.image,
     },
   });
-
+console.log("result", result);
   return {
     success: true,
     message: "User registered",
