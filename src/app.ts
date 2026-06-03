@@ -27,6 +27,7 @@ app.use(
   cors({
     origin: "https://assignment5-frontend-seven.vercel.app",
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   })
 );
 
