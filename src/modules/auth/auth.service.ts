@@ -65,20 +65,21 @@ export const updateMe = async (
 
 
 
-export const getMeService = async (token: string) => {
-  if (!token) {
-    throw new Error("No token");
+
+
+export const getSessionUser = async (headers) => {
+  try {
+    const session = await auth.api.getSession({
+      headers, // 🔥 full headers pass
+    });
+
+    if (!session || !session.user) {
+      return null;
+    }
+
+    return session.user;
+  } catch (error) {
+    console.error("Service Error:", error);
+    throw error;
   }
-
-  const session = await auth.api.getSession({
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  });
-
-  if (!session?.user) {
-    throw new Error("Unauthorized");
-  }
-
-  return session.user;
 };

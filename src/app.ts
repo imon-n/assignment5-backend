@@ -36,7 +36,7 @@ app.use(
     credentials: true,
   })
 );
-app.use("/api/auth", toNodeHandler(auth));
+app.all("/api/auth/*", toNodeHandler(auth));
 app.use("/api", authRoute);
 
 // other routes

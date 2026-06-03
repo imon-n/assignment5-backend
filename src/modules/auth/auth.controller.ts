@@ -1,6 +1,6 @@
 // auth.controller.ts
 import { Request, Response } from "express";
-import {  getMeService, loginUser, registerUser, updateMe } from "./auth.service";
+import {  getMeService, getSessionUser, loginUser, registerUser, updateMe } from "./auth.service";
 
 
 
@@ -16,28 +16,29 @@ export const loginUserController = async (req: Request, res: Response) => {
 
 
 
-export const getMeController = async (req: Request, res: Response) => {
-  try {
-    const token = req.headers.authorization?.split(" ")[1];
 
-    const user = await getMeService(token as string);
+export const getMeController = async (req, res) => {
+  try {
+    const user = await getSessionUser(req.headers);
+
+    if (!user) {
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized",
+      });
+    }
 
     return res.json({
       success: true,
       data: user,
     });
-  } catch (err: any) {
-    console.error("getMe error:", err.message);
+  } catch (err) {
+    console.error("Controller Error:", err);
 
-    if (err.message === "No token") {
-      return res.status(401).json({ message: "No token" });
-    }
-
-    if (err.message === "Unauthorized") {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
-
-    return res.status(500).json({ message: "Server error" });
+    return res.status(500).json({
+      success: false,
+      message: "Server error",
+    });
   }
 };
 
