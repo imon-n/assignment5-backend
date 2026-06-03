@@ -17,9 +17,18 @@ export const loginUserController = async (req: Request, res: Response) => {
 
 
 
-export const getMeController = async (req, res) => {
+// auth.controller.ts
+export const getMeController = async (req: Request, res: Response) => {
   try {
-    const user = await getSessionUser(req.headers);
+    // Convert Express headers to Web API Headers object
+    const headers = new Headers();
+    for (const [key, value] of Object.entries(req.headers)) {
+      if (value) {
+        headers.set(key, Array.isArray(value) ? value.join(", ") : value);
+      }
+    }
+
+    const user = await getSessionUser(headers);
 
     if (!user) {
       return res.status(401).json({
@@ -34,7 +43,6 @@ export const getMeController = async (req, res) => {
     });
   } catch (err) {
     console.error("Controller Error:", err);
-
     return res.status(500).json({
       success: false,
       message: "Server error",

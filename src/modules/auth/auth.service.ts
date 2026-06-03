@@ -67,11 +67,18 @@ export const updateMe = async (
 
 
 
-export const getSessionUser = async (headers) => {
+// auth.service.ts
+export const getSessionUser = async (rawHeaders: Record<string, string | string[] | undefined>) => {
   try {
-    const session = await auth.api.getSession({
-      headers, // 🔥 full headers pass
-    });
+    // Convert Express headers to Web API Headers object
+    const headers = new Headers();
+    for (const [key, value] of Object.entries(rawHeaders)) {
+      if (value) {
+        headers.set(key, Array.isArray(value) ? value.join(", ") : value);
+      }
+    }
+
+    const session = await auth.api.getSession({ headers });
 
     if (!session || !session.user) {
       return null;
