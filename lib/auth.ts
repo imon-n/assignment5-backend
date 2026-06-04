@@ -63,7 +63,7 @@ export const auth = betterAuth({
     autoSignIn: true,
     requireEmailVerification: false, // 👉 testing time false রাখো
   },
-
+plugins:[nextCookies()],
   socialProviders: {
     google: {
       prompt: "select_account consent",
