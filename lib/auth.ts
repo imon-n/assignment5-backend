@@ -25,16 +25,6 @@ export const auth = betterAuth({
     "https://assignment5-backend-f7q4.onrender.com",
   ],
 
-  cookies: {
-    sessionToken: {
-      options: {
-        httpOnly: true,
-        secure: true, // 🔥 MUST for Vercel + Render
-        sameSite: "none", // 🔥 CROSS SITE FIX
-        path: "/",
-      },
-    },
-  },
 
 
   // 🔥 extra safety (important in production)

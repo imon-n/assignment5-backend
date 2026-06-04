@@ -15,14 +15,8 @@ import cookieParser from "cookie-parser";
 import { authHandler } from "./auth.route";
 const app: Application = express();
 
-app.post(
-  "/api/v1/payments/stripe/webhook",
-  express.raw({type: "application/json"}),
-  PaymentController.handleStripeWebhook,
-);
 
-app.use(express.json());
-app.use(cookieParser());
+app.set("trust proxy", 1);
 
 app.use(
   cors({
@@ -30,6 +24,8 @@ app.use(
     credentials: true,
   })
 );
+app.use(express.json());
+
 
 // 🔥 AFTER middleware
 app.all("/api/auth/*", authHandler);
