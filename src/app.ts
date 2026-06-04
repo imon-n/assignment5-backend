@@ -44,6 +44,15 @@ app.use("/api", reviewRoute);
 app.use("/api", adminRoute);
 app.use("/api/v1/payments", paymentRoute);
 
+app.get("/api/test-session", async (req, res) => {
+  const session = await auth.api.getSession({
+    headers: req.headers as any,
+  });
+
+  console.log("SESSION:", session);
+
+  res.json(session);
+});
 app.get("/", (req, res) => {
   res.send("Hello, World!");
 });
