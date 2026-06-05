@@ -20,9 +20,12 @@ export const auth = betterAuth({
   }),
 
 
- baseURL: process.env.APP_URL,
-trustedOrigins: [process.env.APP_URL!],
+ baseURL: "https://assignment5-backend-f7q4.onrender.com",
 
+trustedOrigins: [
+  "https://assignment5-frontend-seven.vercel.app",
+  "http://localhost:3000",
+]
  
 
   // account: { skipStateCookieCheck: true }, // solved redirect issue
