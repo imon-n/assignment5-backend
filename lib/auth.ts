@@ -23,8 +23,8 @@ export const auth = betterAuth({
  baseURL: "https://assignment5-backend-f7q4.onrender.com",
 
 trustedOrigins: [
-  "https://assignment5-frontend-seven.vercel.app",
-  "http://localhost:3000",
+  "https://assignment5-frontend-seven.vercel.app"
+ 
 ]
  
 
