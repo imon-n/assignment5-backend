@@ -18,11 +18,12 @@ export enum UserRole {
 const authMiddleware = (...roles: UserRole[]) => {
   return async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const session = await auth.api.getSession({
-        headers: req.headers as any,
-      });
+      // const session = await auth.api.getSession({
+      //   headers: req.headers as any,
+      // });
 
-
+  const session =
+        req.cookies["__Secure-session_token"] || req.cookies["session_token"];
 
       if (!session) {
         return res.status(401).json({ message: "Unauthorized" });

@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import nodemailer from "nodemailer";
-import { nextCookies } from "better-auth/next-js";
+import { oAuthProxy } from "better-auth/plugins";
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -14,23 +14,43 @@ const transporter = nodemailer.createTransport({
 });
 
 export const auth = betterAuth({
-  baseURL: "https://assignment5-backend-f7q4.onrender.com",
 
   database: prismaAdapter(prisma, {
     provider: "postgresql",
   }),
 
-  trustedOrigins: [
-    "https://assignment5-frontend-seven.vercel.app",
-    "https://assignment5-backend-f7q4.onrender.com",
-  ],
 
+ baseURL: process.env.APP_URL!,
+  trustedOrigins: [process.env.APP_URL!],
 
+ 
 
-  // 🔥 extra safety (important in production)
+  // account: { skipStateCookieCheck: true }, // solved redirect issue
   advanced: {
-    useSecureCookies: true,
+    cookies: {
+      session_token: {
+        name: "session_token", // Force this exact name
+        attributes: {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          partitioned: true,
+        },
+      },
+      state: {
+        name: "session_token", // Force this exact name
+        attributes: {
+          httpOnly: true,
+          secure: true,
+          sameSite: "none",
+          partitioned: true,
+        },
+      },
+    },
   },
+
+  plugins: [oAuthProxy()],
+ 
 
   user: {
     additionalFields: {
@@ -53,7 +73,7 @@ export const auth = betterAuth({
     autoSignIn: true,
     requireEmailVerification: false, // 👉 testing time false রাখো
   },
-plugins:[nextCookies()],
+
   socialProviders: {
     google: {
       prompt: "select_account consent",
