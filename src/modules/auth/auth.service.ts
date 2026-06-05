@@ -58,7 +58,7 @@ export const updateMe = async (
 export const getSessionUser = async (headers: Headers) => {
   try {
     const session = await auth.api.getSession({ headers });
-
+console.log(session);
     if (!session || !session.user) {
       return null;
     }

@@ -15,30 +15,80 @@ export enum UserRole {
 //   }
 // }
 
+// const authMiddleware = (...roles: UserRole[]) => {
+//   return async (req: Request, res: Response, next: NextFunction) => {
+//     try {
+//       // const session = await auth.api.getSession({
+//       //   headers: req.headers as any,
+//       // });
+
+//   const session =
+//         req.cookies["__Secure-session_token"] || req.cookies["session_token"];
+
+//       if (!session) {
+//         return res.status(401).json({ message: "Unauthorized" });
+//       }
+
+//       (req as any).user = session.user;
+// console.log((req as any).user )
+//       if (
+//   roles.length &&
+//   !roles.includes((req as any).user.role)
+// ) {
+//   return res.status(403).json({
+//     message: "Forbidden",
+//   });
+// }
+
+//       next();
+//     } catch (error) {
+//       next(error);
+//     }
+//   };
+// };
+
 const authMiddleware = (...roles: UserRole[]) => {
-  return async (req: Request, res: Response, next: NextFunction) => {
+  return async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+  ) => {
     try {
-      // const session = await auth.api.getSession({
-      //   headers: req.headers as any,
-      // });
+      const headers = new Headers();
 
-  const session =
-        req.cookies["__Secure-session_token"] || req.cookies["session_token"];
+      for (const [key, value] of Object.entries(req.headers)) {
+        if (value) {
+          headers.set(
+            key,
+            Array.isArray(value)
+              ? value.join(", ")
+              : value
+          );
+        }
+      }
 
-      if (!session) {
-        return res.status(401).json({ message: "Unauthorized" });
+      const session = await auth.api.getSession({
+        headers,
+      });
+
+      console.log("SESSION:", session);
+
+      if (!session?.user) {
+        return res.status(401).json({
+          message: "Unauthorized",
+        });
       }
 
       (req as any).user = session.user;
-console.log((req as any).user )
+
       if (
-  roles.length &&
-  !roles.includes((req as any).user.role)
-) {
-  return res.status(403).json({
-    message: "Forbidden",
-  });
-}
+        roles.length &&
+        !roles.includes(session.user.role as UserRole)
+      ) {
+        return res.status(403).json({
+          message: "Forbidden",
+        });
+      }
 
       next();
     } catch (error) {
@@ -46,6 +96,7 @@ console.log((req as any).user )
     }
   };
 };
+
 
 export default authMiddleware;
 

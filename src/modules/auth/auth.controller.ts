@@ -18,37 +18,56 @@ export const loginUserController = async (req: Request, res: Response) => {
 
 
 // auth.controller.ts
-export const getMeController = async (req: Request, res: Response) => {
-  try {
-    // 🔥 Convert once here, then pass to service
-    const headers = new Headers();
-    for (const [key, value] of Object.entries(req.headers)) {
-      if (value) {
-        headers.set(key, Array.isArray(value) ? value.join(", ") : value);
-      }
-    }
+// export const getMeController = async (req: Request, res: Response) => {
+//   try {
+//     // 🔥 Convert once here, then pass to service
+//     const headers = new Headers();
+//     for (const [key, value] of Object.entries(req.headers)) {
+//       if (value) {
+//         headers.set(key, Array.isArray(value) ? value.join(", ") : value);
+//       }
+//     }
 
     
-    console.log("Authorization:", req.headers.authorization);
+//     console.log("Authorization:", req.headers.authorization);
 
-    const user = await getSessionUser(headers);
+//     const user = await getSessionUser(headers);
 
-    if (!user) {
-      return res.status(401).json({
-        success: false,
-        message: "Unauthorized",
-      });
-    }
+//     if (!user) {
+//       return res.status(401).json({
+//         success: false,
+//         message: "Unauthorized",
+//       });
+//     }
 
-    return res.json({
+//     return res.json({
+//       success: true,
+//       data: user,
+//     });
+//   } catch (err) {
+//     console.error("Controller Error:", err);
+//     return res.status(500).json({
+//       success: false,
+//       message: "Server error",
+//     });
+//   }
+// };
+
+export const getMeController = async (
+  req: Request,
+  res: Response
+) => {
+  try {
+    return res.status(200).json({
       success: true,
-      data: user,
+      data: (req as any).user,
     });
-  } catch (err) {
-    console.error("Controller Error:", err);
+  } catch (error) {
+    console.error(error);
+
     return res.status(500).json({
       success: false,
-      message: "Server error",
+      message: "Server Error",
     });
   }
 };
