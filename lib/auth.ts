@@ -26,7 +26,7 @@ trustedOrigins: [
   "https://assignment5-frontend-seven.vercel.app"
  
 ]
- 
+ ,
 
   // account: { skipStateCookieCheck: true }, // solved redirect issue
   advanced: {
