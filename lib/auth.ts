@@ -52,7 +52,7 @@ trustedOrigins: [
     },
   },
 
-  // plugins: [oAuthProxy()],
+  plugins: [oAuthProxy()],
  
 
   user: {
