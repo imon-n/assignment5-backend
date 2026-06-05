@@ -20,8 +20,8 @@ export const auth = betterAuth({
   }),
 
 
- baseURL: process.env.APP_URL!,
-  trustedOrigins: [process.env.APP_URL!],
+ baseURL: process.env.APP_URL,
+trustedOrigins: [process.env.APP_URL!],
 
  
 
