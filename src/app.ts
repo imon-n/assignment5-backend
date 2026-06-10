@@ -12,7 +12,9 @@ import adminRoute from "./modules/admin/admin.route";
 import paymentRoute from "./modules/payment/payment.route";
 import * as PaymentController from "./modules/payment/payment.controller";
 import cookieParser from "cookie-parser";
-import { authHandler } from "./auth.route";
+// import { authHandler } from "./auth.route";
+import { toNodeHandler } from "better-auth/node";
+import { auth } from "../lib/auth";
 const app: Application = express();
 
 
@@ -28,9 +30,9 @@ app.use(express.json());
 
 
 // 🔥 AFTER middleware
-app.all("/api/auth/*", authHandler);
+// app.all("/api/auth/*", authHandler);
 
-
+app.all("/api/auth/*", toNodeHandler(auth));
 
 app.use("/api", authRoute);
 app.use("/api", tutorRoute);
