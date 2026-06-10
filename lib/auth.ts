@@ -2,7 +2,7 @@ import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { prisma } from "./prisma";
 import nodemailer from "nodemailer";
-import { oAuthProxy } from "better-auth/plugins";
+// import { oAuthProxy } from "better-auth/plugins";
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 587,
@@ -37,7 +37,7 @@ trustedOrigins: [
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          partitioned: true,
+          // partitioned: true,
         },
       },
       state: {
@@ -52,7 +52,7 @@ trustedOrigins: [
     },
   },
 
-  plugins: [oAuthProxy()],
+  // plugins: [oAuthProxy()],
  
 
   user: {
