@@ -37,7 +37,7 @@ trustedOrigins: [
           httpOnly: true,
           secure: true,
           sameSite: "none",
-          // partitioned: true,
+          partitioned: true,
         },
       },
       state: {
