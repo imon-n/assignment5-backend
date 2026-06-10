@@ -40,15 +40,15 @@ trustedOrigins: [
           partitioned: true,
         },
       },
-      state: {
-        name: "session_token", // Force this exact name
-        attributes: {
-          httpOnly: true,
-          secure: true,
-          sameSite: "none",
-          partitioned: true,
-        },
-      },
+      // state: {
+      //   name: "session_token", // Force this exact name
+      //   attributes: {
+      //     httpOnly: true,
+      //     secure: true,
+      //     sameSite: "none",
+      //     partitioned: true,
+      //   },
+      // },
     },
   },
 
