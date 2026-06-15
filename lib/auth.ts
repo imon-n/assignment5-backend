@@ -74,7 +74,7 @@ trustedOrigins: [
   emailAndPassword: {
     enabled: true,
     autoSignIn: true,
-    requireEmailVerification: false, // 👉 testing time false রাখো
+    requireEmailVerification: true, // 👉 testing time false রাখো
   },
 
   socialProviders: {
