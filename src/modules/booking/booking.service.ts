@@ -150,12 +150,31 @@ export const getBookingAmount = async (bookingId: string) => {
   return booking.tutor.hourlyRate;
 };
 
+// export const getMyBookings = async (userId: string) => {
+//   return await prisma.booking.findMany({
+//     where: {
+//       studentId: userId,
+//     },
+
+//     include: {
+//       tutor: {
+//         include: {
+//           user: true,
+//           category: true,
+//         },
+//       },
+//     },
+
+//     orderBy: {
+//       createdAt: "desc",
+//     },
+//   });
+// };
 export const getMyBookings = async (userId: string) => {
-  return await prisma.booking.findMany({
+  const bookings = await prisma.booking.findMany({
     where: {
       studentId: userId,
     },
-
     include: {
       tutor: {
         include: {
@@ -164,11 +183,19 @@ export const getMyBookings = async (userId: string) => {
         },
       },
     },
-
     orderBy: {
       createdAt: "desc",
     },
   });
+
+  return bookings.map((booking) => ({
+    ...booking,
+    tutor: {
+      ...booking.tutor,
+      image: booking.tutor.user.image,
+      name: booking.tutor.user.name,
+    },
+  }));
 };
 
 export const getBookingById = async (id: string) => {

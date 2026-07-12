@@ -23,7 +23,7 @@ app.set("trust proxy", 1);
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "https://assignment5-frontend-seven.vercel.app",
+    origin: ["https://assignment5-frontend-seven.vercel.app"],
     credentials: true,
   })
 );
