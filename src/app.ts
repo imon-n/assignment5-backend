@@ -13,6 +13,7 @@ import paymentRoute from "./modules/payment/payment.route";
 import * as PaymentController from "./modules/payment/payment.controller";
 import cookieParser from "cookie-parser";
  import { authHandler } from "./auth.route";
+import dashboardRoute from "./modules/dashboard/dashboard.route";
 // import { toNodeHandler } from "better-auth/node";
 // import { auth } from "../lib/auth";
 const app: Application = express();
@@ -40,6 +41,7 @@ app.use("/api", categoryRoute);
 app.use("/api", bookingRoute);
 app.use("/api", reviewRoute);
 app.use("/api", adminRoute);
+app.use("/api", dashboardRoute);
 app.use("/api/v1/payments", paymentRoute);
 
 
