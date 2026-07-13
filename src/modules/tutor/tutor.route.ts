@@ -7,6 +7,7 @@ import {
     AvailabilityController,
     getTutorSessions,
     getTutorAvailabilityController,
+    getMyTutorProfiles,
   
 } from "./tutor.controller"
 import authMiddleware, { UserRole } from "../../midlewares/auth.middleware";
@@ -22,6 +23,17 @@ router.post(
 );
 
 router.put("/tutor/profile", authMiddleware(UserRole.TUTOR), updateTutorProfileController);
+router.get(
+  "/profile/me",
+   authMiddleware(UserRole.TUTOR),
+  getMyTutorProfiles
+);
+
+router.patch(
+  "/profile/me",
+  authMiddleware(UserRole.TUTOR),
+  updateTutorProfileController
+);
 router.post("/tutor/availability", authMiddleware(UserRole.TUTOR), AvailabilityController);
 router.get(
   "/tutor/:id/availability",

@@ -111,6 +111,26 @@ export const getTutors = async (query: any) => {
     },
   });
 };
+
+export const getMyTutorProfile = async (userId: string) => {
+  return prisma.tutorProfile.findUnique({
+    where: {
+      userId,
+    },
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          role: true,
+        },
+      },
+      category: true,
+    },
+  });
+};
 export const getTutorById = async(id:string)=>{
   console.log(id)
     const tutor = await prisma.tutorProfile.findUnique({
@@ -129,12 +149,35 @@ export const getTutorById = async(id:string)=>{
 }
 
 
-export const updateTutor = async(userId:string,payload:any)=>{
+// export const updateTutor = async(userId:string,payload:any)=>{
+//   return prisma.tutorProfile.update({
+//     where:{userId},
+//     data:payload,
+//   })
+// }
+export const updateTutor = async (
+  userId: string,
+  payload: any
+) => {
   return prisma.tutorProfile.update({
-    where:{userId},
-    data:payload,
-  })
-}
+    where: {
+      userId,
+    },
+    data: payload,
+    include: {
+      user: {
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          image: true,
+          role: true,
+        },
+      },
+      category: true,
+    },
+  });
+};
 
 export const Availability = async (
   tutorId: string,
